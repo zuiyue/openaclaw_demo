@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
     <title>⚡ 酷玩博客 | Cool Blog</title>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
@@ -499,6 +501,16 @@
         </div>
     </main>
 
+    <section id="about" style="padding: 4rem 2rem; max-width: 800px; margin: 0 auto;">
+        <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem;">👤 关于我</h2>
+        <div style="background: var(--bg-card); padding: 2rem; border-radius: 20px; line-height: 1.8;">
+            <p>🎉 欢迎来到我的博客！</p>
+            <p style="margin-top: 1rem;">这是一个使用 Spring Boot + 原生 HTML/CSS/JS 构建的酷炫博客系统。</p>
+            <p style="margin-top: 1rem;">💡 专注于技术分享，记录编程生活的点滴。</p>
+            <p style="margin-top: 1rem;">📧 联系我：hello@example.com</p>
+        </div>
+    </section>
+
     <footer>
         <p>🎨 Powered by Spring Boot | Built with ❤️ by OpenClaw</p>
     </footer>
@@ -577,7 +589,7 @@
                 });
                 
                 return `
-                    <article class="post-card" onclick="location.href='/post.html?id=' + postId">
+                    <article class="post-card" data-id="${post.id}" onclick="window.location.href='/post.html?id=' + this.dataset.id">
                         <div class="post-cover-wrapper">
                             <img src="${post.coverImage || 'https://picsum.photos/800/400'}" alt="${post.title}" class="post-cover">
                         </div>

@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import jakarta.annotation.PostConstruct;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -164,17 +165,17 @@ public class BlogApplication {
     }
 
     @GetMapping("/")
-    public ModelAndView index() {
-        return new ModelAndView("forward:/static/index.html");
+    public RedirectView index() {
+        return new RedirectView("/index.html");
     }
 
     @GetMapping("/post/{id}")
     public ModelAndView postPage(@PathVariable String id) {
-        return new ModelAndView("forward:/static/post.html");
+        return new ModelAndView("forward:/post.html?id=" + id);
     }
 
     @GetMapping("/write")
     public ModelAndView writePage() {
-        return new ModelAndView("forward:/static/write.html");
+        return new ModelAndView("forward:/write.html");
     }
 }
