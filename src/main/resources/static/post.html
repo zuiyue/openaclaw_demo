@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文章详情 | Cool Blog</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --accent-cyan: #00f5ff;
+            --accent-magenta: #ff00aa;
+            --accent-purple: #a855f7;
+            --accent-yellow: #fbbf24;
+            --text-primary: #ffffff;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --gradient-1: linear-gradient(135deg, #00f5ff 0%, #a855f7 100%);
+            --gradient-2: linear-gradient(135deg, #ff00aa 0%, #fbbf24 100%);
+            --glow-cyan: 0 0 30px rgba(0, 245, 255, 0.3);
+            --glow-magenta: 0 0 30px rgba(255, 0, 170, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* Background */
+        .bg-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: 
+                radial-gradient(ellipse at 20% 20%, rgba(0, 245, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(255, 0, 170, 0.05) 0%, transparent 50%);
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(10, 10, 15, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1rem 2rem;
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: var(--gradient-1);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--gradient-1);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .back-btn {
+            color: var(--text-secondary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Article */
+        article {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem 4rem;
+        }
+
+        .article-header {
+            margin-bottom: 3rem;
+            text-align: center;
+        }
+
+        .article-category {
+            display: inline-block;
+            padding: 0.5rem 1.25rem;
+            background: rgba(0, 245, 255, 0.1);
+            color: var(--accent-cyan);
+            border-radius: 25px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            line-height: 1.3;
+            background: linear-gradient(135deg, #ffffff 0%, #00f5ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .article-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+        }
+
+        .article-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .article-cover {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .article-content {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        .article-content h2 {
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-cyan);
+        }
+
+        .article-content h3 {
+            font-size: 1.4rem;
+            color: var(--text-primary);
+            margin: 2rem 0 1rem;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .article-content ul, .article-content ol {
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .article-content code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-card);
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.9em;
+            color: var(--accent-cyan);
+        }
+
+        .article-content pre {
+            background: var(--bg-card);
+            padding: 1.5rem;
+            border-radius: 15px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .article-content pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-primary);
+        }
+
+        .article-content a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .article-content a:hover {
+            border-color: var(--accent-cyan);
+        }
+
+        .article-content strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .article-tags {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .article-tag {
+            padding: 0.5rem 1rem;
+            background: rgba(168, 85, 247, 0.1);
+            color: var(--accent-purple);
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Navigation */
+        .article-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .article-nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 1rem 1.5rem;
+            background: var(--bg-card);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+            max-width: 45%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .article-nav a:hover {
+            background: var(--gradient-1);
+            color: var(--bg-primary);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            color: var(--text-muted);
+        }
+
+        .loading-spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--accent-cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .article-title {
+                font-size: 1.8rem;
+            }
+            
+            .article-cover {
+                height: 250px;
+            }
+            
+            .article-nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .article-nav a {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-animation"></div>
+    
+    <header>
+        <div class="header-content">
+            <a href="/" class="logo">
+                <span class="logo-icon">⚡</span>
+                <span>Cool Blog</span>
+            </a>
+            <a href="/" class="back-btn">← 返回首页</a>
+        </div>
+    </header>
+
+    <article id="article">
+        <div class="loading">
+            <div class="loading-spinner"></div>
+            <p>加载文章中...</p>
+        </div>
+    </article>
+
+    <script>
+        // Get post ID from URL
+        const urlParams = new URLSearchParams(window.location.search); const postId = urlParams.get("id");
+        const postId = path.split('/post/')[1];
+
+        // Render markdown-like content
+        function renderContent(content) {
+            let html = content
+                // Headers
+                .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+                .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+                // Code blocks
+                .replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>')
+                // Inline code
+                .replace(/`([^`]+)`/g, '<code>$1</code>')
+                // Bold
+                .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                // Links
+                .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>')
+                // Lists
+                .replace(/^- (.+)$/gm, '<li>$1</li>')
+                .replace(/^(\d+)\. (.+)$/gm, '<li>$2</li>')
+                // Line breaks
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/\n/g, '<br>');
+
+            // Wrap lists
+            html = html.replace(/(<li>.*<\/li>)+/g, '<ul>$&</ul>');
+            
+            return `<p>${html}</p>`;
+        }
+
+        // Load post
+        async function loadPost() {
+            try {
+                const response = await fetch(`/api/posts/${postId}`);
+                if (!response.ok) {
+                    document.getElementById('article').innerHTML = '<div class="loading">文章不存在</div>';
+                    return;
+                }
+                
+                const post = await response.json();
+                const date = new Date(post.createdAt).toLocaleDateString('zh-CN', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                });
+
+                document.title = `${post.title} | Cool Blog`;
+
+                document.getElementById('article').innerHTML = `
+                    <header class="article-header">
+                        <span class="article-category">${post.category}</span>
+                        <h1 class="article-title">${post.title}</h1>
+                        <div class="article-meta">
+                            <span>👤 ${post.author || '匿名'}</span>
+                            <span>📅 ${date}</span>
+                            <span>👁 ${post.views || 0} 阅读</span>
+                        </div>
+                    </header>
+                    
+                    <img src="${post.coverImage || 'https://picsum.photos/800/400'}" alt="${post.title}" class="article-cover">
+                    
+                    <div class="article-content">
+                        ${renderContent(post.content)}
+                    </div>
+                    
+                    ${post.tags ? `<div class="article-tags">${post.tags.map(t => `<span class="article-tag">#${t}</span>`).join('')}</div>` : ''}
+                `;
+            } catch (error) {
+                console.error('Error loading post:', error);
+                document.getElementById('article').innerHTML = '<div class="loading">加载失败</div>';
+            }
+        }
+
+        loadPost();
+    </script>
+</body>
+</html>
